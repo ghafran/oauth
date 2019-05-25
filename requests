@@ -8,3 +8,16 @@ scope=profile
 redirect_uri=https%3A%2F%2Fpitangui.amazon.com%2Fapi%2Fskill%2Flink%2FM3TDK53NH6D0KJ
 
 auth, generate code and redirect with code parameter
+
+
+Post  /oauth/token
+
+authorization: Basic Y2xpZW50MTpjbGllbnQx
+
+client_id: "client1"
+code: "code_123"
+grant_type: "authorization_code"
+redirect_uri: "https://pitangui.amazon.com/api/skill/link/M3TDK53NH6D0KJ"
+
+
+{"access_token":"access_token_123","token_type":"bearer","expires_in":2592000,"refresh_token":"refresh_token_123","scope":"read","uid":100101,"info":{"name":"test user","email":"test@yopmail.com"}}
