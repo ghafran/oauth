@@ -25,9 +25,6 @@ module.exports = class web {
         var code = 'code_123'
         var redirect_uri = req.query.redirect_uri;
         res.redirect(`${redirect_uri}?code=${code}`);
-        res.status(200).json({
-            success: true
-        });
     }
 
     static token(req, res) {
