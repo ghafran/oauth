@@ -48,11 +48,15 @@ module.exports = class web {
         var username = creds[0];
         var client_secret = creds[1];
 
+        var access_token = 'access_token_123';
+        var refresh_token = 'refresh_token_123';
+
         res.json({
-            access_token:'access_token_123',
+            access_token: access_token,
             token_type:'bearer',
             expires_in:2592000,
-            refresh_token:'refresh_token_123',
+            refresh_token: refresh_token,
+            client_id: client_id,
             scope:'read',
             uid:100101,
             info:{
