@@ -35,3 +35,32 @@ node --inspect=8080 main.js
 ssh -N -L 8080:localhost:8080 ubuntu@oauth.vital.chat
 http://localhost:8080/json
 ```
+
+
+# SSL
+
+```
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+docker rm sslcertgen
+docker run -it --name sslcertgen --entrypoint="/bin/sh" -v "$(pwd):/ssl" \
+-e "AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID" \
+-e "AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY" \
+certbot/certbot -c "pip install certbot-dns-route53; \
+certbot certonly \
+--preferred-challenges dns \
+--cert-name oauth.vital.chat \
+--email ghafranabbas@gmail.com \
+--agree-tos \
+--no-eff-email \
+--manual-public-ip-logging-ok \
+--dns-route53 \
+--dns-route53-propagation-seconds 30 \
+--domains oauth.vital.chat; \
+cd /etc/letsencrypt/live/oauth.vital.chat; \
+cp *.pem /ssl; \
+/bin/sh;"
+
+exit
+docker rm sslcertgen
+```

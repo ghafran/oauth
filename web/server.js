@@ -3,12 +3,11 @@
 var web = require('./web.js'),
     express = require('express'),
     http = require('http'),
+    https = require('https'),
     bodyParser = require('body-parser'),
     cors = require('cors'),
     serveStatic = require('serve-static'),
     ejs = require('ejs'),
-    url = require('url'),
-    ws = require('ws'),
     path = require('path');
 
 // setup web server
@@ -29,3 +28,16 @@ app.use(router);
 
 var server = http.createServer(app);
 server.listen(80);
+
+https.createServer({
+    key: fs.readFileSync(__dirname + '/ssl/privkey.pem'),
+    cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
+    ca: fs.readFileSync(__dirname + '/ssl/chain.pem')
+}, app).listen(443);
+
+http.createServer((req, res) => {
+    res.writeHead(301, {
+        'Location': 'https://' + req.headers.host + req.url
+    });
+    res.end();
+}).listen(80);
