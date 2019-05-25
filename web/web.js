@@ -23,8 +23,9 @@ module.exports = class web {
     static oauth(req, res) {
         console.log(req);
         var code = 'code_123'
+        var state = req.query.state
         var redirect_uri = req.query.redirect_uri;
-        res.redirect(`${redirect_uri}?code=${code}`);
+        res.redirect(`${redirect_uri}?code=${code}&state=${state}`);
     }
 
     static token(req, res) {
