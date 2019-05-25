@@ -46,15 +46,9 @@ module.exports = class web {
 
         res.json({
             access_token: access_token,
-            token_type:'bearer',
-            expires_in:2592000,
             refresh_token: refresh_token,
-            scope:'read',
-            uid:100101,
-            info:{
-                name:'test user',
-                email:'test@yopmail.com'
-            }
+            token_type: 'bearer',
+            expires_in: 2592000
         });
     }
 };
