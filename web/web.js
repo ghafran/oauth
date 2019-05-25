@@ -36,27 +36,29 @@ module.exports = class web {
 
         var client_id = req.body.client_id;
         var code = req.body.code;
-        var grant_type = req.body.grant_type;
+        var grant_type = req.body.grant_type; // authorization_code, refresh_token
         var redirect_uri = req.body.redirect_uri
+        var refresh_token = req.body.refresh_token
         var auth = req.header('authorization');
         
         var tmp = auth.split(' ');  
-        var buf = new Buffer(tmp[1], 'base64');
+        var buf = Buffer.from(tmp[1], 'base64');
         var plain_auth = buf.toString();
         var creds = plain_auth.split(':');
         var username = creds[0];
         var client_secret = creds[1];
 
         res.json({
-            access_token:"access_token_123",
-            token_type:"bearer",
+            access_token:'access_token_123',
+            token_type:'bearer',
             expires_in:2592000,
-            refresh_token:"refresh_token_123",
-            scope:"read",
+            refresh_token:'refresh_token_123',
+            scope:'read',
             uid:100101,
             info:{
-                name:"test user",
-                email:"test@yopmail.com"
-            }});
+                name:'test user',
+                email:'test@yopmail.com'
+            }
+        });
     }
 };
