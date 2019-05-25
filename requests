@@ -12,9 +12,8 @@ auth, generate code and redirect with code parameter
 
 Post  /oauth/token
 
-authorization: Basic Y2xpZW50MTpjbGllbnQx
-
 client_id: "client1"
+client_secret: "client1"
 code: "code_123"
 grant_type: "authorization_code"
 redirect_uri: "https://pitangui.amazon.com/api/skill/link/M3TDK53NH6D0KJ"
