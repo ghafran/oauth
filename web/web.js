@@ -1,5 +1,3 @@
-
-
 var _ = require('lodash'),
     promise = require('bluebird');
 

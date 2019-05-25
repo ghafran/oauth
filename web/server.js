@@ -28,28 +28,4 @@ web.setupRoutes(router);
 app.use(router);
 
 var server = http.createServer(app);
-server.listen(7861, '127.0.0.1');
-
-const conn = require('./ws.js');
-const wsConn = new ws.Server({
-    noServer: true
-});
-
-wsConn.on('connection', (conn) => {
-    // Process connection
-    conn.onConnection(conn);
-});
-
-conn.start(wsConn);
-
-server.on('upgrade', (request, socket, head) => {
-    const pathname = url.parse(request.url).pathname;
-
-    if (pathname.startsWith('/socket')) {
-        wsConn.handleUpgrade(request, socket, head, (ws) => {
-            wsConn.emit('connection', ws, request); // this is required
-        });
-    } else {
-        socket.destroy();
-    }
-});
+server.listen(80);
