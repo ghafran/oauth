@@ -12,6 +12,11 @@ ssh ubuntu@oauth.vital.chat
 # Setup
 
 ```
+scp web/ssl/*.pem ubuntu@oauth.vital.chat:/home/ubuntu
+
+ssh ubuntu@oauth.vital.chat
+sudo su
+
 curl -sL https://deb.nodesource.com/setup_10.x | bash -
 apt-get install -y nodejs
 
@@ -19,6 +24,8 @@ cd /srv/
 git clone https://github.com/ghafran/oauth.git
 cd oauth
 npm install
+
+cp /home/ubuntu/*.pem /srv/oauth/web/ssl
 ```
 
 # Run 

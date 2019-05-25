@@ -1,6 +1,7 @@
 
 
 var web = require('./web.js'),
+    fs = require('fs'),
     express = require('express'),
     http = require('http'),
     https = require('https'),
