@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="refresh" content="60;URL='/network_check'">
+    <title>VitalChat</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+        /* Full-width input fields */
+        
+        input[type=text],
+        input[type=password] {
+            width: 100%;
+            padding: 15px;
+            margin: 5px 0 22px 0;
+            display: inline-block;
+            border: none;
+            background: #f1f1f1;
+        }
+        
+        input[type=text]:focus,
+        input[type=password]:focus {
+            background-color: #ddd;
+            outline: none;
+        }
+        
+        hr {
+            border: 1px solid #f1f1f1;
+            margin-bottom: 25px;
+        }
+        /* Set a style for all buttons */
+        
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            opacity: 0.9;
+        }
+        
+        button:hover {
+            opacity: 1;
+        }
+        /* Extra styles for the cancel button */
+        
+        .cancelbtn {
+            padding: 14px 20px;
+            background-color: #f44336;
+        }
+        /* Float cancel and signup buttons and add an equal width */
+        
+        .cancelbtn,
+        .signupbtn {
+            float: left;
+            width: 50%;
+        }
+        /* Add padding to container elements */
+        
+        .container {
+            padding: 16px;
+        }
+        /* Clear floats */
+        
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+        /* Change styles for cancel button and signup button on extra small screens */
+        
+        @media screen and (max-width: 300px) {
+            .cancelbtn,
+            .signupbtn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Device is offline</h1>
+        <p>Download app from app store, then follow steps to configure this device, then show the camera the QR code.</p>
+        <hr> Current Setup:
+        <br /> Version:
+        <%= version.branch %>
+            <%= version.version %>
+                <br />
+                <% network.networks.forEach((network)=>{ %>
+                    <br />Device:
+                    <%= network.device%>, Type:
+                        <%= network.type%>, SSID:
+                            <%= network.wifi_ssid%>
+                                <% });%>
+                                    <p>Scan the QR code to make changes to the WIFI network, or wait for the network to come back online.</p>
+                                    <p>
+                                        <span id="message"></span>
+                                    </p>
+    </div>
+</body>
+
+<script>
+    const client = new WebSocket('ws://localhost/socket');
+
+    client.addEventListener('message', function(message) {
+        console.log('message', message);
+        var data = JSON.parse(message.data)
+        document.getElementById('message').innerHTML = data.message;
+        if (data.message.indexOf('complete') > -1) {
+            window.location.href = '/network_check';
+        }
+    });
+    client.addEventListener('close', function() {
+        console.log('wss close');
+    });
+    client.addEventListener('error', function(err) {
+        console.log('wss err', err);
+    });
+</script>
+
+</html>
