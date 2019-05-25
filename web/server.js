@@ -27,9 +27,6 @@ var router = express.Router();
 web.setupRoutes(router);
 app.use(router);
 
-var server = http.createServer(app);
-server.listen(80);
-
 https.createServer({
     key: fs.readFileSync(__dirname + '/ssl/privkey.pem'),
     cert: fs.readFileSync(__dirname + '/ssl/cert.pem'),
