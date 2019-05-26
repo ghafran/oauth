@@ -91,11 +91,10 @@
 
                 return pc.createAnswer().then((answer) => {
                     
-                    return answer;
-            //         return pc.setLocalDescription(desc).then(() => {
+                    return pc.setLocalDescription(answer).then(() => {
 
-            //             return pc.localDescription;
-            //         )};
+                        return answer;
+                    )};
                 });
             });
         });
