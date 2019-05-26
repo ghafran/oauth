@@ -113,13 +113,14 @@
     }
 
     function waitForIce(){
-        if(pc.iceGatheringState === 'complete'){
-            return;
-        } else {
-            return Promise.delay(200).then(()=>{
-                return waitForIce();
-            });
-        }
+        // if(pc.iceGatheringState === 'complete'){
+        //     return;
+        // } else {
+        //     return Promise.delay(200).then(()=>{
+        //         return waitForIce();
+        //     });
+        // }
+        return Promise.delay(500);
     }
 
     function disconnect() {
