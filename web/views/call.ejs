@@ -86,16 +86,17 @@
             localVideo.srcObject = stream;
             pc.addStream(stream);
 
-            return pc.setRemoteDescription(new RTCSessionDescription(offer)).then(() => {
+            return 'blah';
+            // return pc.setRemoteDescription(new RTCSessionDescription(offer)).then(() => {
 
-                return pc.createAnswer().then((desc) => {
+            //     return pc.createAnswer().then((desc) => {
                     
-                    return pc.setLocalDescription(desc).then(() => {
+            //         return pc.setLocalDescription(desc).then(() => {
 
-                        return pc.localDescription;
-                    )};
-                });
-            });
+            //             return pc.localDescription;
+            //         )};
+            //     });
+            // });
         });
     }
 </script>
