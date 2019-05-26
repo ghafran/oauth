@@ -18,7 +18,8 @@
 </head>
 
 <body>
-    
+    <video id="localVideo" autoplay muted></video>
+    <video id="remoteVideo" autoplay></video>
 </body>
 
 <script type="text/javascript">
@@ -32,7 +33,9 @@
         message: function(message) {
             console.log(message);
 
-            sendAnswer('test answer');
+            startWebRTC(message.offer).then((answer) => {
+                sendAnswer(answer);
+            });
         }
     });
 
@@ -50,4 +53,47 @@
     }
 </script>
 
+<script>
+    const configuration = {
+        iceServers: [{
+            urls: 'stun:stun.l.google.com:19302' // Google's public STUN server
+        }]
+    };
+
+    function onSuccess() {};
+    function onError(error) {
+        console.error(error);
+    };
+
+    let pc;
+    function startWebRTC(offer) {
+        pc = new RTCPeerConnection(configuration);
+        pc.onicecandidate = event => {
+            if (event.candidate) {
+                sendMessage({'candidate': event.candidate});
+            }
+        };
+    
+        pc.onaddstream = event => {
+            remoteVideo.srcObject = event.stream;
+        };
+    
+        return navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: true,
+        }).then(stream => {
+
+            localVideo.srcObject = stream;
+            pc.addStream(stream);
+
+            return pc.setRemoteDescription(new RTCSessionDescription(offer), () => {
+
+                return pc.createAnswer().then((localDescCreated) => {
+                    
+                    return localDescCreated;
+                });
+            });
+        });
+    }
+</script>
 </html>
