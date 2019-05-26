@@ -14,7 +14,8 @@
             box-sizing: border-box
         }
     </style>
-    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
+    <script src="//cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/bluebird@3.5.5/js/browser/bluebird.min.js"></script>
 </head>
 
 <body>
@@ -100,12 +101,25 @@
 
                 return pc.createAnswer().then((answer) => {
                     
-                    return pc.setLocalDescription(answer).then(()=>{
-                        return answer;
+                    return waitForIce().then(()=>{
+
+                        return pc.setLocalDescription(pc.localDescription).then(()=>{
+                            return answer;
+                        }); 
                     });
                 });
             });
         });
+    }
+
+    function waitForIce(){
+        if(pc.iceGatheringState === 'complete'){
+            return;
+        } else {
+            return Promise.delay(200).then(()=>{
+                return waitForIce();
+            });
+        }
     }
 
     function disconnect() {
