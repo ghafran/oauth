@@ -35,6 +35,7 @@
 
             if(data.channel === 'offer'){
                 startWebRTC(data.message.offer).then((answer) => {
+                    console.log(answer);
                     sendAnswer(answer);
                 });
             } else if(data.channel === 'disconnect'){
