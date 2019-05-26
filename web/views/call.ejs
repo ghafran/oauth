@@ -33,14 +33,18 @@
         message: function(data) {
             console.log(data);
 
-            startWebRTC(data.message.offer).then((answer) => {
-                sendAnswer(answer);
-            });
+            if(data.channel === 'offer'){
+                startWebRTC(data.message.offer).then((answer) => {
+                    sendAnswer(answer);
+                });
+            } else if(data.channel === 'disconnect'){
+                disconnect();
+            }
         }
     });
 
     pubnubDemo.subscribe({
-        channels: ['offer']
+        channels: ['offer', 'disconnected']
     });
 
     function sendAnswer(answer) {
@@ -100,6 +104,10 @@
                 });
             });
         });
+    }
+
+    function disconnect() {
+        location.reload(true);
     }
 </script>
 </html>

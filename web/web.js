@@ -33,6 +33,7 @@ module.exports = class web {
         router.all('/oauth', web.oauth);
         router.all('/oauth/token', web.token);
         router.all('/sendoffer', web.sendOffer);
+        router.all('/disconnect', web.disconnect);
 
         router.all('/call', web.call);
     }
@@ -103,6 +104,17 @@ module.exports = class web {
                     res.json({
                         answer: msg.answer
                     });
+                });
+        });
+    }
+
+    static disconnect(req, res){
+        _pubnub.publish({
+            channel : 'disconnect',
+            message : {}
+        }, (status, response) => {
+                res.json({
+                    success: true
                 });
         });
     }
