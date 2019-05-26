@@ -89,14 +89,14 @@
             
             return pc.setRemoteDescription(offer).then(() => {
 
-                return 'blah';
-            //     return pc.createAnswer().then((desc) => {
+                return pc.createAnswer().then((answer) => {
                     
+                    return answer;
             //         return pc.setLocalDescription(desc).then(() => {
 
             //             return pc.localDescription;
             //         )};
-            //     });
+                });
             });
         });
     }
