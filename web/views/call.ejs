@@ -70,7 +70,7 @@
         pc = new RTCPeerConnection(configuration);
         pc.onicecandidate = event => {
             if (event.candidate) {
-                sendMessage({'candidate': event.candidate});
+                // sendMessage({'candidate': event.candidate});
             }
         };
     
