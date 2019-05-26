@@ -88,9 +88,12 @@
 
             return pc.setRemoteDescription(new RTCSessionDescription(offer), () => {
 
-                return pc.createAnswer().then((localDescCreated) => {
+                return pc.createAnswer().then((desc) => {
                     
-                    return localDescCreated;
+                    return pc.setLocalDescription(desc).then(() => {
+
+                        return pc.localDescription;
+                    );
                 });
             });
         });
