@@ -86,7 +86,7 @@
             localVideo.srcObject = stream;
             pc.addStream(stream);
 
-            return pc.setRemoteDescription(new RTCSessionDescription(offer), () => {
+            return pc.setRemoteDescription(new RTCSessionDescription(offer)).then(() => {
 
                 return pc.createAnswer().then((desc) => {
                     
