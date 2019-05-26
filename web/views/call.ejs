@@ -30,10 +30,10 @@
     });
 
     pubnubDemo.addListener({
-        message: function(message) {
-            console.log(message);
+        message: function(data) {
+            console.log(data);
 
-            startWebRTC(message.offer).then((answer) => {
+            startWebRTC(data.message.offer).then((answer) => {
                 sendAnswer(answer);
             });
         }
