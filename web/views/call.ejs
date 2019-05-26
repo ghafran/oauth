@@ -101,26 +101,26 @@
 
                 return pc.createAnswer().then((answer) => {
                     
-                    return waitForIce().then(()=>{
+                    return pc.setLocalDescription(answer).then(()=>{
 
-                        return pc.setLocalDescription(pc.localDescription).then(()=>{
-                            return answer;
-                        }); 
-                    });
+                        return waitForIce().then(()=>{
+
+                            return pc.localDescription;
+                        });
+                    }); 
                 });
             });
         });
     }
 
     function waitForIce(){
-        // if(pc.iceGatheringState === 'complete'){
-        //     return;
-        // } else {
-        //     return Promise.delay(200).then(()=>{
-        //         return waitForIce();
-        //     });
-        // }
-        return Promise.delay(500);
+        if(pc.iceGatheringState === 'complete'){
+            return;
+        } else {
+            return Promise.delay(200).then(()=>{
+                return waitForIce();
+            });
+        }
     }
 
     function disconnect() {
