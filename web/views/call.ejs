@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+
+<head>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>VitalChat</title>
+    <style>
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        
+        * {
+            box-sizing: border-box
+        }
+    </style>
+    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.21.7.js"></script>
+</head>
+
+<body>
+    
+</body>
+
+<script type="text/javascript">
+
+    var pubnubDemo = new PubNub({
+        publishKey: 'pub-c-6f959cde-7073-4fa8-8ca6-d7cfabeeb78e',
+        subscribeKey: 'sub-c-803adfdc-7fb4-11e9-aee4-2e27e4d79cf8'
+    });
+
+    pubnubDemo.addListener({
+        message: function(message) {
+            console.log(message);
+
+            sendAnswer('test answer');
+        }
+    });
+
+    pubnubDemo.subscribe({
+        channels: ['offer']
+    });
+
+    function sendAnswer(answer) {
+        pubnubDemo.publish({
+            message: {
+                answer : answer
+            },
+            channel: 'answer'
+        });
+    }
+</script>
+
+</html>

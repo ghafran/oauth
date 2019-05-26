@@ -1,5 +1,29 @@
 var _ = require('lodash'),
-    promise = require('bluebird');
+    promise = require('bluebird'),
+    PubNub = require('pubnub'),
+    EventEmitter = require('events').EventEmitter;
+
+var _messageBus = new EventEmitter();
+_messageBus.setMaxListeners(Infinity);
+
+_pubnub = new PubNub({
+    publishKey : 'pub-c-6f959cde-7073-4fa8-8ca6-d7cfabeeb78e',
+    subscribeKey : 'sub-c-803adfdc-7fb4-11e9-aee4-2e27e4d79cf8'
+});
+
+_pubnub.subscribe({
+    channels: ['answer'] 
+});
+
+_pubnub.addListener({
+    message: function(msg) {
+        console.log(msg);
+        
+        _messageBus.emit('answer', {
+            answer: msg.message.answer
+        });
+    }
+}) 
 
 module.exports = class web {
 
@@ -8,6 +32,9 @@ module.exports = class web {
         router.all('/check', web.check);
         router.all('/oauth', web.oauth);
         router.all('/oauth/token', web.token);
+        router.all('/sendoffer', web.sendOffer);
+
+        router.all('/call', web.call);
     }
 
     static index(req, res) {
@@ -20,8 +47,13 @@ module.exports = class web {
         });
     }
 
+    static call(req, res) {
+        res.status(200).render('views/call.ejs');
+    }
+
     static oauth(req, res) {
         console.log(req);
+
         var code = 'code_123'
         var client_id = req.query.client_id;
         var response_type = req.query.response_type;
@@ -49,6 +81,29 @@ module.exports = class web {
             refresh_token: refresh_token,
             token_type: 'bearer',
             expires_in: 2592000
+        });
+    }
+
+    static sendOffer(req, res) {
+        console.log(req);
+
+        var offer = req.body.offer || req.query.offer;
+
+        _pubnub.publish({
+            channel : 'offer',
+            message : {
+                offer: offer
+            }}, (status, response) => {
+                console.log(status, response);
+
+                _messageBus.once('answer', (msg) => {
+                    console.log(msg);
+
+                    _messageBus.removeAllListeners('answer');
+                    res.json({
+                        answer: msg.answer
+                    });
+                });
         });
     }
 };
