@@ -25,6 +25,7 @@ git clone https://github.com/ghafran/oauth.git
 cd oauth
 npm install
 
+mkdir -p /srv/oauth/web/ssl
 cp /home/ubuntu/*.pem /srv/oauth/web/ssl
 ```
 
