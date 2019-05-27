@@ -89,20 +89,13 @@
         };
     
         return navigator.mediaDevices.getUserMedia({
-            audio: { 
-                echoCancellation: true 
-            },
-            video: false
-            // video: {
-            //     width: 640,
-            //     height: 480
-            // }
+            audio: true,
+            video: true
         }).then(stream => {
 
             localVideo.srcObject = stream;
             pc.addStream(stream);
 
-            
             return pc.setRemoteDescription(new RTCSessionDescription({
                 type: 'offer',
                 sdp: offer
