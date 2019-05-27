@@ -89,8 +89,13 @@
         };
     
         return navigator.mediaDevices.getUserMedia({
-            audio: true,
-            video: true,
+            audio: { 
+                echoCancellation: true 
+            },
+            video: {
+                width: 640,
+                height: 480
+            },
         }).then(stream => {
 
             localVideo.srcObject = stream;
