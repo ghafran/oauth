@@ -92,10 +92,11 @@
             audio: { 
                 echoCancellation: true 
             },
-            video: {
-                width: 640,
-                height: 480
-            },
+            video: false
+            // video: {
+            //     width: 640,
+            //     height: 480
+            // }
         }).then(stream => {
 
             localVideo.srcObject = stream;
